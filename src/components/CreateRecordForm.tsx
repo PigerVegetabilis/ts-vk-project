@@ -50,6 +50,11 @@ export default function CreateRecordForm({ fields, onSubmit }: FormProps){
                                 variant = 'outlined'
                                 error = {touched[field.name] && !!errors[field.name]}
                                 helperText = {touched[field.name] && errors[field.name]}
+                                InputProps= {{
+                                    sx: {
+                                        backgroundColor: "white"
+                                    }
+                                }}
                             />
                         ))}
                     </Stack>
@@ -59,6 +64,7 @@ export default function CreateRecordForm({ fields, onSubmit }: FormProps){
                         variant="contained"
                         color="primary"
                         disabled={isSubmitting}
+                        sx={{mb: 2}}
                     >
                         {isSubmitting?(
                             <CircularProgress size={24} color="inherit" />
