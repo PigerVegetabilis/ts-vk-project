@@ -2,6 +2,7 @@ import {Box, Paper, Typography, Tooltip} from '@mui/material';
 import React, { useCallback, useRef, useEffect } from 'react';
 import {FixedSizeList as List} from 'react-window';
 import InfiniteLoader from 'react-window-infinite-loader';
+import {observer} from 'mobx-react-lite'
 
 interface TableProps{
     columns: string[];
@@ -11,7 +12,7 @@ interface TableProps{
     isLoading: boolean;
 }
 
-export default function CustomTable({columns, data, loadMore, hasMore, isLoading} : TableProps){
+const CustomTable = observer(({columns, data, loadMore, hasMore, isLoading} : TableProps) => {
     const listRef = useRef<any>(null);
     const loadingRef = useRef(false);
     useEffect(() => {
@@ -120,4 +121,6 @@ export default function CustomTable({columns, data, loadMore, hasMore, isLoading
         </Paper>
         
     )
-}
+});
+
+export default CustomTable;

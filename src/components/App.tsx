@@ -1,21 +1,12 @@
-import { useCallback, useEffect, useState } from 'react'
-import reactLogo from '../assets/react.svg'
-import viteLogo from '/vite.svg'
 import '../css/App.css'
-import Button from '@mui/material/Button';
 import CustomTable from './CustomTable';
-import { fetchData, createItem } from '../api/api';
 import type { FormField } from '../types';
 import * as Yup from 'yup';
 import CreateRecordForm from './CreateRecordForm';
+import { observer } from 'mobx-react-lite';
+import tableStore from '../store/TableStore';
 
-function App() {
-  const [data, setData] = useState<any[]>([]);
-  const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(true);
-  const [columns, setColumns] = useState<string[]>([]);
-
+const App = observer(() => {
   const formFields: FormField[] = [
     {name: 'name', label: 'Name', type: 'text', validation: Yup.string().max(15).required()},
     {name: 'description', label: 'Description', type: 'text', validation: Yup.string().max(100)},
@@ -24,52 +15,29 @@ function App() {
     {name: 'category', label: 'Category', type: 'text', validation: Yup.string().max(40)},
   ];
 
-  const loadMore = useCallback( async () => {
-    if (loading || !hasMore) return;
-    setLoading(true);
-    try{
-      const {items, hasMore: more} = await fetchData(page, 10);
-      setData(prev => [...prev, ...items]);
-      setHasMore(more);
-      setPage(prev => prev + 1);
-
-      if (items.length > 0 && columns.length === 0){
-        setColumns(Object.keys(items[0]));
-      }
-    } finally{
-      setLoading(false);
-    }
-  }, [page, loading, hasMore])
-
-  const handleSubmit = async (values: any) => {
-    const newItem = await createItem(values);
-    setData(prev => [newItem, ...prev]);
-  }
-
-
   return (
     <div className="app-container">
       <h1>Data Table</h1>
       <div className="app-wrapper" style={{display: 'flex', gap: '10px'}}>
         <CreateRecordForm 
         fields={formFields}
-        onSubmit={handleSubmit}
+        onSubmit={(values) => tableStore.addItem(values)}
         />
 
         <CustomTable
-          columns={columns}
-          data={data}
-          loadMore={loadMore}
-          hasMore={hasMore}
-          isLoading={loading}
+          columns={tableStore.columns}
+          data={tableStore.data}
+          loadMore={() => tableStore.loadMore()}
+          hasMore={tableStore.hasMore}
+          isLoading={tableStore.loading}
         />
 
-        {loading && <div className='loading-indicator'>Loading...</div>}
+        {tableStore.loading && <div className='loading-indicator'>Loading...</div>}
         
       </div>
       
     </div>
   )
-}
+})
 
 export default App
