@@ -1,5 +1,60 @@
 {
-    "items": [
-
-    ]
+  "items": [
+    {
+      "id": "a125",
+      "name": "Paul",
+      "description": "",
+      "price": 70000,
+      "quantity": 1,
+      "category": "Web Developer"
+    },
+    {
+      "id": "9d1c",
+      "name": "random",
+      "description": "asdasd",
+      "price": 123,
+      "quantity": 23,
+      "category": "nice shoes"
+    },
+    {
+      "id": "bc3b",
+      "name": "sad",
+      "description": "sad",
+      "price": 2,
+      "quantity": 2,
+      "category": "12312"
+    },
+    {
+      "id": "eb7a",
+      "name": "Pavel",
+      "description": "Ssdasd",
+      "price": 231,
+      "quantity": 2312,
+      "category": "213"
+    },
+    {
+      "id": "1036",
+      "name": "sadasdas",
+      "description": "sadasd",
+      "price": 221312,
+      "quantity": 2131,
+      "category": "21321"
+    },
+    {
+      "id": "52ce",
+      "name": "Pasha",
+      "description": "Norm chel",
+      "price": 12000,
+      "quantity": 1,
+      "category": "The best"
+    },
+    {
+      "id": "b230",
+      "name": "фывфы",
+      "description": "выфвфыв",
+      "price": 2231,
+      "quantity": 22,
+      "category": "фывфы"
+    }
+  ]
 }
