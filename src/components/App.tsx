@@ -17,11 +17,11 @@ function App() {
   const [columns, setColumns] = useState<string[]>([]);
 
   const formFields: FormField[] = [
-    {name: 'name', label: 'Name', type: 'text', validation: Yup.string().required()},
-    {name: 'description', label: 'Description', type: 'text'},
-    {name: 'price', label: 'Price', type: 'number', validation: Yup.number().min(0).required()},
-    {name: 'quantity', label: 'Quantity', type: 'number', validation: Yup.number().integer().min(0)},
-    {name: 'category', label: 'Category', type: 'text'},
+    {name: 'name', label: 'Name', type: 'text', validation: Yup.string().max(15).required()},
+    {name: 'description', label: 'Description', type: 'text', validation: Yup.string().max(100)},
+    {name: 'price', label: 'Price', type: 'number', validation: Yup.number().min(0).max(100000).required()},
+    {name: 'quantity', label: 'Quantity', type: 'number', validation: Yup.number().integer().min(0).max(2025)},
+    {name: 'category', label: 'Category', type: 'text', validation: Yup.string().max(40)},
   ];
 
   const loadMore = useCallback( async () => {
@@ -41,10 +41,6 @@ function App() {
     }
   }, [page, loading, hasMore])
 
-  useEffect(() => {
-    loadMore();
-  }, []);
-
   const handleSubmit = async (values: any) => {
     const newItem = await createItem(values);
     setData(prev => [newItem, ...prev]);
@@ -52,12 +48,12 @@ function App() {
 
 
   return (
-    <>
-      <div className="app-container">
-        <h1>Data Table</h1>
+    <div className="app-container">
+      <h1>Data Table</h1>
+      <div className="app-wrapper" style={{display: 'flex', gap: '10px'}}>
         <CreateRecordForm 
-          fields={formFields}
-          onSubmit={handleSubmit}
+        fields={formFields}
+        onSubmit={handleSubmit}
         />
 
         <CustomTable
@@ -65,20 +61,14 @@ function App() {
           data={data}
           loadMore={loadMore}
           hasMore={hasMore}
+          isLoading={loading}
         />
 
         {loading && <div className='loading-indicator'>Loading...</div>}
-        {hasMore && !loading && (
-          <Button
-            variant='contained'
-            onClick={loadMore}
-            sx={{mt: 2}}
-          >
-            Load More
-          </Button>
-        )}
+        
       </div>
-    </>
+      
+    </div>
   )
 }
 
